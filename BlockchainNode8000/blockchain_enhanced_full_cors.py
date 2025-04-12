@@ -7,6 +7,8 @@ import json
 import time
 from ecdsa import SigningKey, VerifyingKey, NIST384p, BadSignatureError
 import requests
+from fastapi.responses import FileResponse
+import os
 
 app = FastAPI()
 
@@ -139,3 +141,18 @@ def sync_with_peers():
         blockchain.save()
         return {"message": "Blockchain sincronizada com sucesso!"}
     return {"message": "Nenhuma cadeia mais longa encontrada."}
+
+# Servir a interface web
+@app.get("/webui.html")
+def serve_webui():
+    return FileResponse(os.path.join(os.path.dirname(__file__), "webui.html"))
+
+# Servir webui.html na rota raiz "/"
+@app.get("/")
+def root():
+    return FileResponse(os.path.join(os.path.dirname(__file__), "webui.html"))
+
+# (Opcional) favicon vazio para evitar 404
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse(os.path.join(os.path.dirname(__file__), "favicon.ico")) if os.path.exists("favicon.ico") else {}
