@@ -3,10 +3,9 @@ from pydantic import BaseModel
 from starlette.responses import FileResponse
 
 from block_class import Block, Transaction
-from blockchain import Blockchain
-import json
-import time
-from ecdsa import SigningKey, VerifyingKey, NIST384p, BadSignatureError
+from blockchain import Blockchain, validate_chain
+
+from ecdsa import SigningKey, NIST384p
 import requests
 
 app = FastAPI()
@@ -114,28 +113,50 @@ def list_peers():
 @app.get("/peers/sync")
 def sync_with_peers():
     global blockchain
-    longest_chain = blockchain.blocks
+    from copy import deepcopy
+
+    # Primeiro, valida a própria cadeia
+    current_chain = blockchain.blocks
+    valid_chains = []
+
+    if validate_chain(current_chain, blockchain.difficulty):
+        valid_chains.append((len(current_chain), deepcopy(current_chain), "local"))
+
     for peer in peers:
         try:
-            response = requests.get(f"{peer}/export")
-            peer_chain = response.json()
-            if len(peer_chain) > len(longest_chain):
-                longest_chain = peer_chain
-        except Exception:
+            response = requests.get(f"{peer}/export", timeout=5)
+            peer_chain_data = response.json()
+
+            # Reconstrói a cadeia do peer
+            peer_chain = []
+            for b in peer_chain_data:
+                transactions = [Transaction(**tx) for tx in b["transactions"]]
+                block = Block(
+                    index=b["index"],
+                    timestamp=b["timestamp"],
+                    previous_hash=b["previous_hash"],
+                    transactions=transactions,
+                    nonce=b["nonce"]
+                )
+                peer_chain.append(block)
+
+            if validate_chain(peer_chain, blockchain.difficulty):
+                valid_chains.append((len(peer_chain), peer_chain, peer))
+
+        except Exception as e:
+            print(f"Erro ao conectar com peer {peer}: {e}")
             continue
-    if len(longest_chain) > len(blockchain.blocks):
-        new_chain = []
-        for b in longest_chain:
-            transactions = [Transaction(**tx) for tx in b["transactions"]]
-            new_block = Block(
-                index=b["index"],
-                timestamp=b["timestamp"],
-                previous_hash=b["previous_hash"],
-                transactions=transactions,
-                nonce=b["nonce"]
-            )
-            new_chain.append(new_block)
-        blockchain.blocks = new_chain
+
+    if not valid_chains:
+        return {"message": "Nenhuma cadeia válida encontrada entre peers ou local."}
+
+    # Seleciona a cadeia válida mais longa
+    valid_chains.sort(key=lambda x: x[0], reverse=True)
+    best_length, best_chain, source = valid_chains[0]
+
+    if source != "local":
+        blockchain.blocks = deepcopy(best_chain)
         blockchain.save()
-        return {"message": "Blockchain sincronizada com sucesso!"}
+        return {"message": f"Blockchain sincronizada com sucesso a partir de '{source}'", "length": best_length}
+
     return {"message": "Nenhuma cadeia mais longa encontrada."}
