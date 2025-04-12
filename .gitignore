@@ -79,7 +79,7 @@ matcher.conf
 
 # >>> UNITY IGNORE END <<<
 
-# >>> PYTHON IGNORE (your original list) <<<
+# >>> PYTHON IGNORE <<<
 __pycache__/
 *.py[cod]
 *$py.class
