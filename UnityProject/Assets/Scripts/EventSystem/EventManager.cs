@@ -18,10 +18,24 @@ public static class EventManager
         OnUpdateUIEvent?.Invoke();
     }
 
-    public delegate void CallStorePanel();
-    public static event CallStorePanel OnCallStorePanelEvent;
+    public delegate void OnCallStorePanel();
+    public static event OnCallStorePanel OnCallStorePanelEvent;
     public static void OnCallStorePanelTrigger()
     {
         OnCallStorePanelEvent?.Invoke();
+    }
+
+    public delegate void OnCallGameOver();
+    public static event OnCallGameOver OnCallGameOverEvent;
+    public static void OnCallGameOverTrigger()
+    {
+        OnCallGameOverEvent?.Invoke();
+    }
+
+    public delegate void OnAddToHitsCount();
+    public static event OnAddToHitsCount OnAddToHitsCountEvent;
+    public static void OnAddToHitsCountTrigger()
+    {
+        OnAddToHitsCountEvent?.Invoke();
     }
 }

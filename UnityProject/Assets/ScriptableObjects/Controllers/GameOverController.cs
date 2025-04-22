@@ -7,4 +7,9 @@ public class GameOverController : ScriptableObject
 {
     public int playerOneScore;
     public int playerTwoScore;
+
+    public int maxHitsCount;
+    public int currentHitsCount;
+
+    public int totalPointsToWin;
 }

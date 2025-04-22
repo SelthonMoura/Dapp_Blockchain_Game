@@ -40,6 +40,7 @@ public class PlayerHP : MonoBehaviour
             else
                 _gameOverController.playerOneScore += 1;
 
+            EventManager.OnAddToHitsCountTrigger();
             EventManager.OnUpdateUITrigger();
         }
     }

@@ -29,7 +29,7 @@ public class ShopUI : MonoBehaviour
 
     private void UpdatePlayerScoreText()
     {
-        _playerScore.text = _playerCurrency.playerMoney.ToString();
+        //_playerScore.text = _playerCurrency.playerMoney.ToString();
     }
 
     public void CloseSettings()

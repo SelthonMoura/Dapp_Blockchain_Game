@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d036e5d4d5c8ea4cb940021767aae46, type: 3}
   m_Name: GameOverController
   m_EditorClassIdentifier: 
-  playerOneScore: 0
+  playerOneScore: 7
   playerTwoScore: 0
+  maxHitsCount: 5
+  currentHitsCount: 0
+  totalPointsToWin: 20
