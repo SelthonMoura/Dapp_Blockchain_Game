@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class EventManager
 {
-    public delegate void OnBuyItem(GameObject item);
+    public delegate void OnBuyItem(GunSO item);
     public static event OnBuyItem OnBuyItemEvent;
-    public static void OnBuyEventTrigger(GameObject item)
+    public static void OnBuyEventTrigger(GunSO item)
     {
         OnBuyItemEvent?.Invoke(item);
     }
