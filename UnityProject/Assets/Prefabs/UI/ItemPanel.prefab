@@ -228,7 +228,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 23.1
   m_fontSizeBase: 30.99
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 8057734905582294388}
   - component: {fileID: 2313515137904321664}
   - component: {fileID: 4764186352116392624}
-  - component: {fileID: 371203561239382362}
   m_Layer: 5
   m_Name: ItemPanel
   m_TagString: Untagged
@@ -423,30 +422,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &371203561239382362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019154419051026485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3be8fe3b1b2bdae418c4cfa5979c5617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerStats: {fileID: 11400000, guid: 019cbd2385bf69e4b881256ffb8d4f04, type: 2}
-  _itemPriceSO: {fileID: 0}
-  _gameOverEvent:
-    event: {fileID: 11400000, guid: dcd084a41ebc6034d8160a833f9fc35c, type: 2}
-  _gameWinEvent:
-    event: {fileID: 11400000, guid: c33bd55c7818592479dbed737a951266, type: 2}
-  gameEvent: {fileID: 0}
-  updateUI: {fileID: 11400000, guid: cadff5aed161acf4bb5a46b2e908d0c2, type: 2}
-  eventRaiseID: 0
-  itemImage: {fileID: 0}
-  itemPrice: {fileID: 0}
-  _button: {fileID: 4764186352116392624}
 --- !u!1 &7919526242357417136
 GameObject:
   m_ObjectHideFlags: 0

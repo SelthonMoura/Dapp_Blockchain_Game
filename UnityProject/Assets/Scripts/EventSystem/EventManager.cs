@@ -13,8 +13,15 @@ public static class EventManager
 
     public delegate void OnUpdateUI();
     public static event OnUpdateUI OnUpdateUIEvent;
-    public static void OnUpdateUITriger()
+    public static void OnUpdateUITrigger()
     {
         OnUpdateUIEvent?.Invoke();
+    }
+
+    public delegate void CallStorePanel();
+    public static event CallStorePanel OnCallStorePanelEvent;
+    public static void OnCallStorePanelTrigger()
+    {
+        OnCallStorePanelEvent?.Invoke();
     }
 }
