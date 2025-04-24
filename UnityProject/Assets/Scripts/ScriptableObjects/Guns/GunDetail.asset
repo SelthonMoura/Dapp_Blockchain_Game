@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01076e1d8175ee419d008d12707322f, type: 3}
+  m_Name: GunDetail
+  m_EditorClassIdentifier: 
+  gunSprite: {fileID: -2056646869, guid: f48f2f1d233bb95469af72c0e968a491, type: 3}
+  gunShootVelocity: 10
+  gunSound: {fileID: 8300000, guid: 7c31dedc126e18749851125a0d25fc6a, type: 3}
+  defaultGunBullet: {fileID: 11400000, guid: d7b5f540e3d0ab94992d774b2b65f4b2, type: 2}
