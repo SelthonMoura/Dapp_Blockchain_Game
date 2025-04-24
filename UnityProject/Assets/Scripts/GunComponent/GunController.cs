@@ -25,21 +25,27 @@ public class GunController : NetworkBehaviour
 
     private void Awake()
     {
-        EventManager.OnChangeGunEvent += LoadGunComponents;
+        EventManager.OnChangeGunEvent += LoadGunComponentsServerRpc;
     }
 
     private void Start()
     {
         _playerInput = FindObjectOfType<PlayerInput>();
         _playerInput.OnShootAction += PlayerInput_OnShootAction;
-        LoadGunComponents(_currentEquipedGun);
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        LoadGunComponentsServerRpc(_currentEquipedGun);
+
+        base.OnNetworkSpawn();
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
         _playerInput.OnShootAction -= PlayerInput_OnShootAction;
-        EventManager.OnChangeGunEvent -= LoadGunComponents;
+        EventManager.OnChangeGunEvent -= LoadGunComponentsServerRpc;
     }
 
     void Update()
@@ -47,7 +53,8 @@ public class GunController : NetworkBehaviour
         Aim();
     }
 
-    private void LoadGunComponents(GunDetail gunDetails)
+    [ServerRpc]
+    private void LoadGunComponentsServerRpc(GunDetail gunDetails)
     {
         _loadingGun = true;
         _currentEquipedGun = gunDetails;
