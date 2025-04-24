@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 174584929237034225}
   - component: {fileID: 7506898469044664169}
   - component: {fileID: 349063307467525052}
+  - component: {fileID: 177780375044848289}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -600,9 +601,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameOverPanel, Assembly-CSharp
-        m_MethodName: MenuButton
+      - m_Target: {fileID: 177780375044848289}
+        m_TargetAssemblyTypeName: EndMatch, Assembly-CSharp
+        m_MethodName: OnReturnToMenuPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -612,6 +613,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &177780375044848289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2170708557981923146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5942aab7425422479caf7e34dee0152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuSceneName: MenuScene
 --- !u!1 &4349443382260808433
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +638,7 @@ GameObject:
   - component: {fileID: 1672982812462908068}
   - component: {fileID: 6621212687656658772}
   - component: {fileID: 8935189208344734904}
+  - component: {fileID: 997851453501207441}
   m_Layer: 5
   m_Name: ExitGameButton
   m_TagString: Untagged
@@ -733,9 +748,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameOverPanel, Assembly-CSharp
-        m_MethodName: ExitGameButton
+      - m_Target: {fileID: 997851453501207441}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -745,6 +760,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &997851453501207441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4349443382260808433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69b7afa1e75b749468610b6336533e3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5604427884729130140
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,6 +921,7 @@ GameObject:
   - component: {fileID: 2930991589457402612}
   - component: {fileID: 5019117182912625753}
   - component: {fileID: 707898124414609132}
+  - component: {fileID: 3639240740108926837}
   m_Layer: 5
   m_Name: GameWinPanel
   m_TagString: Untagged
@@ -1033,3 +1061,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDataSO: {fileID: 11400000, guid: 653eef63c0bea304eb16a7f408d3f56c, type: 2}
   _totalPoints: {fileID: 396861952723056082}
+--- !u!114 &3639240740108926837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6646013814231067191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5942aab7425422479caf7e34dee0152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuSceneName: MenuScene
