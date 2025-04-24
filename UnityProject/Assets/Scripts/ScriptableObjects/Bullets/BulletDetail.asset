@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: BulletDetail
   m_EditorClassIdentifier: 
   bulletDamage: 1
+  bulletLifetime: 5
   bulletSprite: {fileID: 21300000, guid: 20f142d5793eb5847aee1c05df6a1b60, type: 3}
   bulletCollisionEffect: {fileID: 3137081264367828984, guid: 42b47be34b28cf54d97681c488565345, type: 3}

@@ -7,7 +7,6 @@ using Unity.Netcode;
 
 public class Bullet : NetworkBehaviour
 {
- 
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private CircleCollider2D _circleCollider;
     [SerializeField] private ParticleSystem _bulletEffect;
@@ -15,7 +14,9 @@ public class Bullet : NetworkBehaviour
     private int _bulletDamage;
     private float _speed = 0;
     private bool _canMove = false;
-   
+    private GameObject _owner;
+
+    private ulong _ownerClientId;
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class Bullet : NetworkBehaviour
     }
     private void OnEnable()
     {
+        _owner = null;
         _canMove = true;
         _circleCollider.enabled = true;
     }
@@ -40,11 +42,12 @@ public class Bullet : NetworkBehaviour
         transform.Translate(Vector3.right * Time.deltaTime * _speed);
     }
 
-    public void LoadDefaultConfigBulletConfig(BulletDetail bulletDetail, float gunSpeed)
+    public void LoadDefaultConfigBulletConfig(BulletDetail bulletDetail, float gunSpeed, ulong ownerId)
     {
         _currentBulletConfig = bulletDetail;
         _bulletDamage = bulletDetail.bulletDamage;
-        
+        _ownerClientId = ownerId;
+
         if (IsServer)
         {
             _speed = gunSpeed;
@@ -53,6 +56,8 @@ public class Bullet : NetworkBehaviour
 
         //_spriteRenderer.sprite = bulletDetail.bulletSprite;
         //_bulletEffect = bulletDetail.bulletCollisionEffect;
+
+        StartCoroutine(BulletLifetime());
     }
 
     [ClientRpc]
@@ -66,17 +71,19 @@ public class Bullet : NetworkBehaviour
 
         if (!IsServer || !NetworkObject.IsSpawned) return;
 
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Player" )
         {
-            LifeController lifeController = other.gameObject.GetComponent<LifeController>();
-            lifeController.GetDamage(_bulletDamage);
+            NetworkObject targetNetObj = other.GetComponent<NetworkObject>();
+            if (targetNetObj != null && targetNetObj.OwnerClientId != _ownerClientId)
+            {
+                LifeController lifeController = other.gameObject.GetComponent<LifeController>();
+                lifeController.GetDamage(_bulletDamage, _ownerClientId);
+            }
         }
         else
         {
-
-            BulletDestroyClientRpc();
+            //BulletDestroyClientRpc();
         }
-
 
         DestroyBullet();
     }
@@ -91,5 +98,11 @@ public class Bullet : NetworkBehaviour
     {
         _speed = 0;
         NetworkObject.Despawn(true);
+    }
+
+    private IEnumerator BulletLifetime()
+    {
+        yield return new WaitForSeconds(_currentBulletConfig.bulletLifetime);
+        DestroyBullet();
     }
 }

@@ -6,13 +6,21 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
 
-    public  delegate void OnPlayerSocore(int scoreToAdd);
-    public static event OnPlayerSocore OnCountScoreEvent;
+    public  delegate void OnPlayerScore(ulong killerClientId);
+    public static event OnPlayerScore OnPlayerScoreEvent;
+
+    public static event Action OnPlayerDeath;
+
 
     public delegate void OnChangeGun(GunDetail bullet);
     public static event OnChangeGun OnChangeGunEvent;
 
-    public static event Action OnPlayerDeath;
+    public delegate void OnBuyItem(GunSO item);
+    public static event OnBuyItem OnBuyItemEvent;
+
+    public delegate void OnNewGunSelected(GameObject gunButton);
+    public static event OnNewGunSelected OnNewGunSelectedEvent;
+
 
     public delegate void OnShakeCamera(float intensity, float frequency, float duration);
     public static event OnShakeCamera OnShakeCameraEvent;
@@ -22,51 +30,31 @@ public class EventManager : MonoBehaviour
 
     public delegate void OnMenuButtonPressed();
     public static event OnMenuButtonPressed OnMenuButtonPressedEvent;
+
     public delegate void OnGameEnd();
     public static event OnGameEnd OnGameEndEvent;
-    public delegate void OnBuyItem(GunSO item);
-    public static event OnBuyItem OnBuyItemEvent;
-    public static void OnBuyEventTrigger(GunSO item)
-    {
-        OnBuyItemEvent?.Invoke(item);
-    }
 
     public delegate void OnUpdateUI();
     public static event OnUpdateUI OnUpdateUIEvent;
-    public static void OnUpdateUITrigger()
-    {
-        OnUpdateUIEvent?.Invoke();
-    }
 
     public delegate void OnCallStorePanel();
     public static event OnCallStorePanel OnCallStorePanelEvent;
-    public static void OnCallStorePanelTrigger()
-    {
-        OnCallStorePanelEvent?.Invoke();
-    }
 
-    public delegate void OnCallGameOver();
+    public delegate void OnCallGameOver(int playerNum);
     public static event OnCallGameOver OnCallGameOverEvent;
-    public static void OnCallGameOverTrigger()
-    {
-        OnCallGameOverEvent?.Invoke();
-    }
 
     public delegate void OnAddToHitsCount();
     public static event OnAddToHitsCount OnAddToHitsCountEvent;
-    public static void OnAddToHitsCountTrigger()
-    {
-        OnAddToHitsCountEvent?.Invoke();
-    }
-
+    
+    
     public void OnGameEndTrigger()
     {
         OnGameEndEvent.Invoke();
     }
 
-    public static void OnCountScoreTrigger(int scoreToAdd)
+    public static void OnPlayerScoreTrigger(ulong killerClientId)
     {
-        OnCountScoreEvent?.Invoke(scoreToAdd);
+        OnPlayerScoreEvent?.Invoke(killerClientId);
     }
 
     public static void OnPlayerDeathTrigger() { 
@@ -92,5 +80,31 @@ public class EventManager : MonoBehaviour
     public static void OnMenuButtonPressedTrigger()
     {
         OnMenuButtonPressedEvent?.Invoke();
+    }
+    public static void OnBuyEventTrigger(GunSO item)
+    {
+        OnBuyItemEvent?.Invoke(item);
+    }
+
+    public static void OnUpdateUITrigger()
+    {
+        OnUpdateUIEvent?.Invoke();
+    }
+
+    public static void OnCallStorePanelTrigger()
+    {
+        OnCallStorePanelEvent?.Invoke();
+    }
+    public static void OnCallGameOverTrigger(int playerNum)
+    {
+        OnCallGameOverEvent?.Invoke(playerNum);
+    }
+    public static void OnAddToHitsCountTrigger()
+    {
+        OnAddToHitsCountEvent?.Invoke();
+    }
+    public static void OnNewGunSelectedTrigger(GameObject gunButton)
+    {
+        OnNewGunSelectedEvent?.Invoke(gunButton);
     }
 }

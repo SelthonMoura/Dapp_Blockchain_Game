@@ -6,6 +6,7 @@ using UnityEngine;
 public class BulletDetail : ScriptableObject
 {
     public int bulletDamage;
+    public float bulletLifetime;
     public Sprite bulletSprite;
     public ParticleSystem bulletCollisionEffect;
 }

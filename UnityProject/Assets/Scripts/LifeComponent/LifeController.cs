@@ -6,6 +6,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine.UI;
 using static EventManager;
+
 public class LifeController : NetworkBehaviour
 {
     [SerializeField] private int _maxLife;
@@ -36,7 +37,7 @@ public class LifeController : NetworkBehaviour
         _currentLife.Value = _maxLife;
     }
    
-    public void GetDamage(int damage)
+    public void GetDamage(int damage, ulong attackerId)
     {
         if (_isDead) return;
 
@@ -47,6 +48,9 @@ public class LifeController : NetworkBehaviour
         else
         {
             _isDead = true;
+
+            if(IsServer) EventManager.OnPlayerScoreTrigger(attackerId);
+
             OnDeath?.Invoke();
         }
     }

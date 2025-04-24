@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonItem : MonoBehaviour
 {
-    [SerializeField] private GunSO _gunDetail;
+    [SerializeField] private GameObject _inventoryButton;
     private Button _button;
 
     private void Start()
@@ -18,7 +18,7 @@ public class ButtonItem : MonoBehaviour
         // if enought money
         //{
         _button.interactable = false;
-        EventManager.OnBuyEventTrigger(_gunDetail);
+        _inventoryButton.GetComponent<Button>().interactable = true;
         //}
     }
 }

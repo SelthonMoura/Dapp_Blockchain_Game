@@ -73,8 +73,7 @@ public class GunController : NetworkBehaviour
     {
         NetworkObject bullet = NetworkObjectPool.Singleton.GetNetworkObject(_bulletPrefab, _spawnBulletTransform.position, transform.rotation);
         bullet.Spawn();
-        bullet.GetComponent<Bullet>().LoadDefaultConfigBulletConfig(_currentEquipedBullet, _shootVelocity);
-
+        bullet.GetComponent<Bullet>().LoadDefaultConfigBulletConfig(_currentEquipedBullet, _shootVelocity, OwnerClientId);
     }
 
     private void Aim()

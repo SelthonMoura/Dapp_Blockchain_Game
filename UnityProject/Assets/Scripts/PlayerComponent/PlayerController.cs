@@ -3,6 +3,7 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField] private PlayerDataSO _playerData;
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private Animator _anim;
     [SerializeField] private PlayerInput _playerInput;
@@ -49,6 +50,13 @@ public class PlayerController : NetworkBehaviour
     public void PerformDeathSequence()
     {
         EventManager.OnPlayerDeathTrigger();
+
+        if (IsServer)
+        {
+            ulong clientId = OwnerClientId;
+            PlayerRespawner.Instance.RespawnPlayer(clientId);
+        }
+
         Destroy(gameObject);
     }
 }
