@@ -7,6 +7,7 @@ public class DataHolder : MonoBehaviour
     public static DataHolder Instance { get; private set; }
 
     public PlayerDataSO runtimePlayerDataSO;
+    public int equippedGun;
 
     private void Awake()
     {
@@ -18,5 +19,12 @@ public class DataHolder : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject); // Persist between scenes
+
+        EventManager.OnNewGunSelectedEvent += EquipGun;
+    }
+
+    private void EquipGun(int gun)
+    {
+        equippedGun = gun;
     }
 }

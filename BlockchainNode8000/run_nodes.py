@@ -1,11 +1,15 @@
 import subprocess
 import sys
+import os
 import time
 
 def run_node(port):
+    env = os.environ.copy()
+    env["PORT"] = str(port)
     return subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "blockchain_enhanced_full:app", "--reload", "--port", str(port)],
-        cwd=".",  # ou o path correto se o script não estiver no mesmo diretório
+        cwd=".",
+        env=env
     )
 
 if __name__ == "__main__":
@@ -19,7 +23,6 @@ if __name__ == "__main__":
         time.sleep(1)
 
     print("Todos os nós foram iniciados. Pressione Ctrl+C para encerrar.")
-
     try:
         for p in processes:
             p.wait()

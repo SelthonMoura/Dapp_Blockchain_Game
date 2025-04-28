@@ -104,7 +104,12 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 6435120126869589294, guid: c1fd4fcbfb6b74f40a10ba9ebc41e671, type: 3}
   _spawnBulletTransform: {fileID: 5113534082790460822}
   _audioSource: {fileID: 8004585257045752125}
-  _currentEquipedGun: {fileID: 11400000, guid: a103f915eea29484e8a2a139dbb2e7cb, type: 2}
+  _gunList:
+  - {fileID: 11400000, guid: a103f915eea29484e8a2a139dbb2e7cb, type: 2}
+  - {fileID: 11400000, guid: 9c635901134560f4f84f22cb5fbb89ce, type: 2}
+  - {fileID: 11400000, guid: 618a22b2a1504bf4ebb169304a09bfb8, type: 2}
+  - {fileID: 11400000, guid: 49645b38b7451144db0f8c97d992945e, type: 2}
+  - {fileID: 11400000, guid: bbee292bff9e75a479e4eb8c126a2bfc, type: 2}
 --- !u!82 &8004585257045752125
 AudioSource:
   m_ObjectHideFlags: 0

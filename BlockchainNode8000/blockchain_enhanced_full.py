@@ -12,6 +12,8 @@ app = FastAPI()
 blockchain = Blockchain(difficulty=2)
 peers = set()
 
+import json, os
+PORT = os.getenv("PORT", "8000")
 
 @app.get("/")
 def root():
@@ -41,9 +43,9 @@ def sign_data(data: SignData):
     return {"signature": signature.hex()}
 
 class TransactionData(BaseModel):
-    sender: str
-    recipient: str
-    amount: float
+    player: str
+    item: str
+    amount: int
     signature: str
     public_key: str
 
@@ -53,6 +55,7 @@ def add_transaction(tx: TransactionData):
     if not transaction.is_valid():
         return {"detail": "Transação inválida"}, 400
     blockchain.add_transaction(transaction)
+
     return {"message": "Transação adicionada"}
 
 @app.post("/mine")
@@ -104,7 +107,7 @@ def import_chain(received_chain: list):
 @app.post("/peers/register")
 def register_peer(peer_url: str):
     peers.add(peer_url)
-    return {"peers": list(peers)}
+    return {"peers": list()}
 
 @app.get("/peers")
 def list_peers():
@@ -114,6 +117,18 @@ def list_peers():
 def sync_with_peers():
     global blockchain
     from copy import deepcopy
+
+    print(f"{PORT} adicionando peers")
+    # Adiciona os outros peers
+    with open("peers.json") as f:
+        peer_list = json.load(f)
+        for p in peer_list:
+            if not peers.__contains__(p):
+                if p != f"http://localhost:{PORT}":
+                    try:
+                        peers.add(p)
+                    except:
+                        print(f"Não conseguiu registrar o peer {p}")
 
     # Primeiro, valida a própria cadeia
     current_chain = blockchain.blocks

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Unity.Netcode;
 using Unity.BossRoom.Infrastructure;
+using System.Collections.Generic;
 
 public class GunController : NetworkBehaviour
 {
@@ -9,7 +10,7 @@ public class GunController : NetworkBehaviour
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _spawnBulletTransform;
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private GunDetail _currentEquipedGun;
+    [SerializeField] private List<GunDetail> _gunList;
     private AudioClip _currentBulletShootSound;
     private float _shootVelocity;
     private BulletDetail _currentEquipedBullet;
@@ -23,11 +24,6 @@ public class GunController : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
-    private void Awake()
-    {
-        EventManager.OnChangeGunEvent += LoadGunComponentsServerRpc;
-    }
-
     private void Start()
     {
         _playerInput = FindObjectOfType<PlayerInput>();
@@ -36,7 +32,7 @@ public class GunController : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        LoadGunComponentsServerRpc(_currentEquipedGun);
+        LoadGunComponentsServerRpc(DataHolder.Instance.equippedGun);
 
         base.OnNetworkSpawn();
     }
@@ -45,7 +41,6 @@ public class GunController : NetworkBehaviour
     {
         base.OnDestroy();
         _playerInput.OnShootAction -= PlayerInput_OnShootAction;
-        EventManager.OnChangeGunEvent -= LoadGunComponentsServerRpc;
     }
 
     void Update()
@@ -54,14 +49,14 @@ public class GunController : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void LoadGunComponentsServerRpc(GunDetail gunDetails)
+    private void LoadGunComponentsServerRpc(int gun)
     {
+        var currentGun = _gunList[gun];
         _loadingGun = true;
-        _currentEquipedGun = gunDetails;
-        _spriteRenderer.sprite = _currentEquipedGun.gunSprite;
-        _shootVelocity = _currentEquipedGun.gunShootVelocity;
-        _currentEquipedBullet = _currentEquipedGun.defaultGunBullet;
-        _currentBulletShootSound = _currentEquipedGun.gunSound;
+        _spriteRenderer.sprite = currentGun.gunSprite;
+        _shootVelocity = currentGun.gunShootVelocity;
+        _currentEquipedBullet = currentGun.defaultGunBullet;
+        _currentBulletShootSound = currentGun.gunSound;
         _loadingGun = false;
     }
 

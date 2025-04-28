@@ -4,17 +4,17 @@ from ecdsa import VerifyingKey, BadSignatureError
 
 
 class Transaction:
-    def __init__(self, sender, recipient, amount, signature=None, public_key=None):
-        self.sender = sender
-        self.recipient = recipient
+    def __init__(self, player, item, amount, signature=None, public_key=None):
+        self.player = player
+        self.item = item
         self.amount = amount
         self.signature = signature
         self.public_key = public_key
 
     def to_dict(self):
         return {
-            "sender": self.sender,
-            "recipient": self.recipient,
+            "player": self.player,
+            "item": self.item,
             "amount": self.amount,
             "signature": self.signature,
             "public_key": self.public_key
@@ -26,8 +26,8 @@ class Transaction:
         try:
             tx_data_dict = {
                 "amount": f"{self.amount:.1f}",
-                "recipient": self.recipient,
-                "sender": self.sender
+                "item": self.item,
+                "player": self.player
             }
             tx_data_json = json.dumps(tx_data_dict, sort_keys=True, separators=(',', ':'))
             vk = VerifyingKey.from_pem(self.public_key.encode())

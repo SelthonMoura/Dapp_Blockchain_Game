@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-
     public  delegate void OnPlayerScore(ulong killerClientId);
     public static event OnPlayerScore OnPlayerScoreEvent;
 
@@ -15,10 +14,7 @@ public class EventManager : MonoBehaviour
     public delegate void OnChangeGun(GunDetail bullet);
     public static event OnChangeGun OnChangeGunEvent;
 
-    public delegate void OnBuyItem(GunSO item);
-    public static event OnBuyItem OnBuyItemEvent;
-
-    public delegate void OnNewGunSelected(GameObject gunButton);
+    public delegate void OnNewGunSelected(int gunButton);
     public static event OnNewGunSelected OnNewGunSelectedEvent;
 
 
@@ -45,8 +41,14 @@ public class EventManager : MonoBehaviour
 
     public delegate void OnAddToHitsCount();
     public static event OnAddToHitsCount OnAddToHitsCountEvent;
-    
-    
+
+    public delegate void OnSendTransaction(string item, float amount);
+    public static event OnSendTransaction OnSendTransactionEvent;
+
+    public delegate void OnReceiveBlockchain(string text);
+    public static event OnReceiveBlockchain OnReceiveBlockchainEvent;
+
+
     public void OnGameEndTrigger()
     {
         OnGameEndEvent.Invoke();
@@ -81,10 +83,6 @@ public class EventManager : MonoBehaviour
     {
         OnMenuButtonPressedEvent?.Invoke();
     }
-    public static void OnBuyEventTrigger(GunSO item)
-    {
-        OnBuyItemEvent?.Invoke(item);
-    }
 
     public static void OnUpdateUITrigger()
     {
@@ -103,8 +101,18 @@ public class EventManager : MonoBehaviour
     {
         OnAddToHitsCountEvent?.Invoke();
     }
-    public static void OnNewGunSelectedTrigger(GameObject gunButton)
+    public static void OnNewGunSelectedTrigger(int gun)
     {
-        OnNewGunSelectedEvent?.Invoke(gunButton);
+        OnNewGunSelectedEvent?.Invoke(gun);
+    }
+
+    public static void OnSendTransactionTrigger(string item, float amount)
+    {
+        OnSendTransactionEvent?.Invoke(item, amount);
+    }
+
+    public static void OnReceiveBlockchainTrigger(string text)
+    {
+        OnReceiveBlockchainEvent?.Invoke(text);
     }
 }

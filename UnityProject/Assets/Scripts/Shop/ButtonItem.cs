@@ -1,24 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonItem : MonoBehaviour
 {
-    [SerializeField] private GameObject _inventoryButton;
-    private Button _button;
-
-    private void Start()
-    {
-        _button = GetComponent<Button>();
-    }
+    [SerializeField] private TextMeshProUGUI itemName;
+    [SerializeField] private Image itemImage;
+    private GunDetail _gunDetail;
 
     public void ButtonClick()
     {
-        // if enought money
-        //{
-        _button.interactable = false;
-        _inventoryButton.GetComponent<Button>().interactable = true;
-        //}
+        EventManager.OnSendTransactionTrigger(_gunDetail.gunName, _gunDetail.price);
+    }
+
+    public GunDetail GetItem()
+    {
+        return _gunDetail;
+    }
+
+    internal void Setup(GunDetail gun)
+    {
+        _gunDetail = gun;
+        itemName.text = gun.gunName;
+        itemImage.sprite = gun.gunSprite;
     }
 }

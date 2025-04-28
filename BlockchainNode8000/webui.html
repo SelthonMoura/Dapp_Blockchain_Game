@@ -27,12 +27,12 @@
     }
 
     async function signTransaction() {
-      const sender = document.getElementById('sender').value;
-      const recipient = document.getElementById('recipient').value;
+      const player = document.getElementById('player').value;
+      const item = document.getElementById('item').value;
       const amount = parseFloat(document.getElementById('amount').value);
       const privateKey = document.getElementById('privateKey').value;
 
-      const txDataObj = { sender, recipient, amount };
+      const txDataObj = { player, item, amount };
       const txData = sortedJSONString(txDataObj);
       console.log("txData para assinar:", txData);
 
@@ -46,8 +46,8 @@
 
     async function sendTransaction() {
       const tx = {
-        sender: document.getElementById('sender').value,
-        recipient: document.getElementById('recipient').value,
+        player: document.getElementById('player').value,
+        item: document.getElementById('item').value,
         amount: parseFloat(document.getElementById('amount').value),
         signature: document.getElementById('signature').value,
         public_key: document.getElementById('publicKey').value
@@ -144,8 +144,8 @@
         <label class="block mt-2">Chave Pública:<textarea id="publicKey" class="w-full mt-1 p-2 border rounded" rows="3"></textarea></label>
       </div>
       <div>
-        <label class="block">Remetente: <input type="text" id="sender" class="w-full mt-1 p-2 border rounded" /></label>
-        <label class="block mt-2">Destinatário: <input type="text" id="recipient" class="w-full mt-1 p-2 border rounded" /></label>
+        <label class="block">Jogador: <input type="text" id="player" class="w-full mt-1 p-2 border rounded" /></label>
+        <label class="block mt-2">Item: <input type="text" id="item" class="w-full mt-1 p-2 border rounded" /></label>
         <label class="block mt-2">Valor: <input type="number" id="amount" class="w-full mt-1 p-2 border rounded" /></label>
         <button class="bg-yellow-500 text-white px-4 py-2 rounded mt-2" onclick="signTransaction()">Assinar Transação</button>
         <label class="block mt-2">Assinatura:<textarea id="signature" class="w-full mt-1 p-2 border rounded" rows="2"></textarea></label>
