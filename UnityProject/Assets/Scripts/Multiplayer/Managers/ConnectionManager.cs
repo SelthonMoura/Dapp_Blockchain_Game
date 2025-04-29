@@ -17,7 +17,10 @@ public class ConnectionManager : MonoBehaviour
             Debug.Log("Connected " + AuthenticationService.Instance.PlayerId);
         };
 
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        if (!AuthenticationService.Instance.IsSignedIn)
+        {
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        }
 
     }
 }
