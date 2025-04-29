@@ -84,7 +84,7 @@ public class ShopUI : MonoBehaviour
 
     public void RefreshScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(_blockchainClient.GetBlockchain());
     }
 
     public void CloseShop()
