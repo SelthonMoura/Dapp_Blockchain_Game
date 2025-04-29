@@ -919,6 +919,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 870425199046659771, guid: 4683e91de0f6e9449a1c38e757c8fdbe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 945241669447422061, guid: 4683e91de0f6e9449a1c38e757c8fdbe, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2934,6 +2938,14 @@ PrefabInstance:
     - target: {fileID: 9134953200843846955, guid: 4683e91de0f6e9449a1c38e757c8fdbe, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219959919841391021, guid: 4683e91de0f6e9449a1c38e757c8fdbe, type: 3}
+      propertyPath: port
+      value: 8000
+      objectReference: {fileID: 0}
+    - target: {fileID: 9219959919841391021, guid: 4683e91de0f6e9449a1c38e757c8fdbe, type: 3}
+      propertyPath: apiUrl
+      value: http://localhost:8001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4198,10 +4210,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -4245,10 +4257,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 389821513}
-  - {fileID: 402625315}
-  - {fileID: 534062364}
   - {fileID: 1249170276}
   - {fileID: 91795282}
+  - {fileID: 402625315}
+  - {fileID: 534062364}
   - {fileID: 236081496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

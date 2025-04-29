@@ -251,6 +251,7 @@ MonoBehaviour:
   _anim: {fileID: 5399242915917412172}
   _playerInput: {fileID: 3677100674258863403}
   _lifeController: {fileID: 8941100915338131275}
+  _spriteRenderer: {fileID: 1355753942787953497}
 --- !u!114 &8941100915338131275
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,7 +8,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private Animator _anim;
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private LifeController _lifeController;
-
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+     
     private NetworkVariable<Vector2> networkInputVector = new NetworkVariable<Vector2>(
         Vector2.zero,
         NetworkVariableReadPermission.Everyone,
@@ -44,6 +45,7 @@ public class PlayerController : NetworkBehaviour
     {
         Vector2 inputVector = networkInputVector.Value;
         Vector3 movement = inputVector * Time.deltaTime * _moveSpeed;
+        _spriteRenderer.flipX = inputVector.x > 0;
         transform.Translate(movement);
     }
 

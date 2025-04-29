@@ -78,7 +78,7 @@ def check_chain():
 @app.get("/hack_block")
 def hack_block():
     if len(blockchain.blocks) > 1:
-        blockchain.blocks[1].transactions[0].amount = 9999
+        blockchain.blocks[1].transactions[0].item = "Shotgun"
         blockchain.blocks[1].hash = blockchain.blocks[1].calculate_hash()
         return {"message": "Bloco adulterado com sucesso"}
     return {"message": "Não há bloco suficiente para adulterar."}

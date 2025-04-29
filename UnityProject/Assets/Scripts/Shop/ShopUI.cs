@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShopUI : MonoBehaviour
@@ -81,6 +82,10 @@ public class ShopUI : MonoBehaviour
         }
     }
 
+    public void RefreshScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
     public void CloseShop()
     {

@@ -3,6 +3,7 @@ using UnityEngine;
 using Unity.Netcode;
 using Unity.BossRoom.Infrastructure;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 
 public class GunController : NetworkBehaviour
 {
@@ -19,21 +20,29 @@ public class GunController : NetworkBehaviour
     private bool _loadingGun = false;
 
     // NetworkVariable para sincronizar o ângulo
+    private NetworkVariable<int> _gunSprite = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<float> angleVariable = new NetworkVariable<float>(
         0f,
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
-    private void Start()
+    private void Awake()
     {
         _playerInput = FindObjectOfType<PlayerInput>();
         _playerInput.OnShootAction += PlayerInput_OnShootAction;
+        _gunSprite.OnValueChanged += SetGunSprite;
+    }
+
+    private void SetGunSprite(int previousValue, int newValue)
+    {
+        _spriteRenderer.sprite = _gunList[newValue].gunSprite;
     }
 
     public override void OnNetworkSpawn()
     {
-        LoadGunComponentsServerRpc(DataHolder.Instance.equippedGun);
-
+        if (IsOwner)
+            LoadGunComponentsServerRpc(DataHolder.Instance.equippedGun);
+        _spriteRenderer.sprite = _gunList[_gunSprite.Value].gunSprite;
         base.OnNetworkSpawn();
     }
 
@@ -41,6 +50,7 @@ public class GunController : NetworkBehaviour
     {
         base.OnDestroy();
         _playerInput.OnShootAction -= PlayerInput_OnShootAction;
+        _gunSprite.OnValueChanged -= SetGunSprite;
     }
 
     void Update()
@@ -53,7 +63,7 @@ public class GunController : NetworkBehaviour
     {
         var currentGun = _gunList[gun];
         _loadingGun = true;
-        _spriteRenderer.sprite = currentGun.gunSprite;
+        _gunSprite.Value = gun;
         _shootVelocity = currentGun.gunShootVelocity;
         _currentEquipedBullet = currentGun.defaultGunBullet;
         _currentBulletShootSound = currentGun.gunSound;

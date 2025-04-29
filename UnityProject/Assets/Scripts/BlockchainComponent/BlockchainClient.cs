@@ -1,13 +1,11 @@
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
-using static UnityEditor.Progress;
-using static Cinemachine.CinemachineOrbitalTransposer;
 
 public class BlockchainClient : MonoBehaviour
 {
+    public GameObject loadingPanel;
     public int port = 8000;
     public string apiUrl = "http://localhost:8000"; // ou 8001, 8002...
     private KeyPair keyPair;
@@ -26,9 +24,10 @@ public class BlockchainClient : MonoBehaviour
         public string public_key;
     }
 
-    public void Start()
+    public void Awake()
     {
         apiUrl = "http://localhost:" + port.ToString();
+        keyPair = null;
     }
 
     public bool SendTransaction(string item, float amount)
@@ -44,6 +43,9 @@ public class BlockchainClient : MonoBehaviour
 
     public IEnumerator GetBlockchain()
     {
+        loadingPanel.SetActive(true);
+        yield return StartCoroutine(SyncWithPeers());
+
         using (UnityWebRequest request = UnityWebRequest.Get(apiUrl + "/chain"))
         {
             yield return request.SendWebRequest();
@@ -58,14 +60,33 @@ public class BlockchainClient : MonoBehaviour
                 EventManager.OnReceiveBlockchainTrigger(request.downloadHandler.text);
             }
         }
+        loadingPanel.SetActive(false);
+    }
+
+    private IEnumerator SyncWithPeers()
+    {
+        UnityWebRequest syncReq = UnityWebRequest.Get(apiUrl + "/peers/sync");
+        yield return syncReq.SendWebRequest();
+
+        if (syncReq.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Erro ao sincronizar com peers: " + syncReq.error);
+        }
+        else
+        {
+            Debug.Log("Sincronização com peers realizada: " + syncReq.downloadHandler.text);
+        }
     }
 
 
     private IEnumerator ExecuteTransactionAndMine(string item, float amount)
     {
-        // 1. Verifica se já temos chave privada
+        loadingPanel.SetActive(true);
+        // 0. Sincronizar com os peers antes de qualquer coisa
+        yield return StartCoroutine(SyncWithPeers());
 
-        if (keyPair==null)
+        // 1. Verifica se já temos chave privada
+        if (keyPair == null || keyPair.public_key == null || keyPair.private_key == null || keyPair.public_key.Length<=0||keyPair.private_key.Length<=0)
         {
             keyPair = new KeyPair();
             Debug.Log("Gerando novas chaves...");
